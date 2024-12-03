@@ -1,0 +1,74 @@
+1. Two Sum
+
+Problem
+=======
+
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6
+Output: [0,1]
+
+Constraints:
+
+    2 <= nums.length <= 104
+    -109 <= nums[i] <= 109
+    -109 <= target <= 109
+    Only one valid answer exists.
+
+My Solution
+===========
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+
+        for i, x in enumerate(nums):
+            for j, y in enumerate(nums):
+                result = x + y
+                print(f"x: {x}, y: {y}")
+                if (i != j):
+                    if(result == target):
+                        return [i, j]
+
+This works but has a time complexity of O(n)2
+
+Improved solution:
+==================
+
+class Solution:
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        num_dict = {}
+        
+        for i, num in enumerate(nums):
+            complement = target - num
+            if complement in num_dict:
+                return [num_dict[complement], i]
+            num_dict[num] = i
+        
+        # Return an empty list if no solution is found
+        return []
+        
+Explanation
+
+    Create an empty dictionary num_dict to store the numbers we've seen so far and their indices.
+    Iterate through the input list nums using enumerate to get both the index i and the value num.
+    For each number, calculate its complement complement with respect to the target sum.
+    Check if the complement is already in the dictionary. If it is, it means we've found two numbers that add up to the target, so return their indices.
+    If the complement is not in the dictionary, add the current number and its index to the dictionary.
+    If we reach the end of the list without finding a solution, return an empty list.
